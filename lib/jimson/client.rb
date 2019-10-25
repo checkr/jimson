@@ -54,7 +54,7 @@ module Jimson
     end
 
     def send_batch_request(batch)
-      post_data = MultiJson.encode(batch)
+      post_data = batch.map(&:to_h).to_json
       resp = RestClient.post(@url, post_data, @opts)
       if resp.nil? || resp.body.nil? || resp.body.empty?
         raise Client::Error::InvalidResponse.new
